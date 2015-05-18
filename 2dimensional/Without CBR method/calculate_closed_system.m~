@@ -1,0 +1,62 @@
+%% Energy levels and wave functions of the device Hamiltonian (closed system)
+
+t0=hbar^2/2/me/dx^2;
+H=zeros(nT,nT);
+
+for i=1:nx*ny
+    H(i,i)=4*t0+pot(i);
+end;
+
+for i=1:nx*ny-1
+    H(i,i+1)=-t0;
+    H(i+1,i)=-t0;
+end;
+
+for ll=1:nx-1
+    k=ll*ny;
+    H(k,k+1)=0;
+    H(k+1,k)=0;
+end;
+
+for ll=1:(nx-1)*ny
+    H(ll,ll+ny)=-t0;
+    H(ll+ny,ll)=-t0;
+end;
+
+[Psi_c,Ec]=eig(H);
+
+%% normalize wavefunctions
+norm=sum(Psi_c.*conj(Psi_c),1);
+norm=trapz
+for i=1:nT
+    Psi_c(:,i)=Psi_c(:,i)/sqrt(norm(i));
+end;
+
+%% write eigen-energies in a vector
+E_c=zeros(1,nT);
+for i=1:nT
+    E_c(i)=Ec(i,i);
+end;
+
+%% Plot wavefunction
+% fig=fig+1; figure(fig); hold off;
+% plot(sort(E_1));
+% 
+% 
+% for ii=1:n_alpha
+%     Psi=zeros(nx,ny);
+%     l=1;
+%     for i=1:nx
+%         for j=1:ny
+%             Psi(i,j)=Psi_c(l,ii);
+%             l=l+1;
+%         end;
+%     end;
+%     surf(Psi); view(0,90);
+% %     daspect([1,1,0.1]);
+%     pause;
+% end;
+
+%% Clear unnecessary variables
+
+clear t0 H i ii ll k Ec norm Psi;

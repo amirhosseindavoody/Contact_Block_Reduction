@@ -1,0 +1,61 @@
+%% Calculate contact self-energy matrix
+% Sigma=zeros(nl_1+nl_2,nl_1+nl_2);
+% Sigma_1=zeros(nl_1+nl_2,nl_1+nl_2);
+% Sigma_2=zeros(nl_1+nl_2,nl_1+nl_2);
+% 
+% t0=hbar^2/2/me/dx^2;
+% 
+% for n=1:nl_1
+%     for i=1:nl_1
+%         for j=1:nl_1
+%             % wave-vector for lead #1
+%             ka_1=acos(+(1-(EE(i_E)-E_1(n))/2/t0));
+%             Sigma(i,j)=Sigma(i,j)-t0*exp(1i*ka_1)*Xi_1(i,n)*Xi_1(j,n);
+%             Sigma_1(i,j)=Sigma_1(i,j)-t0*exp(1i*ka_1)*Xi_1(i,n)*Xi_1(j,n);
+%         end;
+%     end;
+% end;
+% 
+% for n=1:nl_2
+%     for i=1:nl_2
+%         for j=1:nl_2
+%             % wave-vector for lead #1
+%             ka_2=acos(+(1-(EE(i_E)-E_2(n))/2/t0));
+%             Sigma(nl_1+i,nl_1+j)=Sigma(nl_1+i,nl_1+j)-t0*exp(1i*ka_2)*Xi_2(i,n)*Xi_2(j,n);
+%             Sigma_2(nl_1+i,nl_1+j)=Sigma_2(nl_1+i,nl_1+j)-t0*exp(1i*ka_2)*Xi_2(i,n)*Xi_2(j,n);
+%         end;
+%     end;
+%          
+% end;
+% 
+% % broadening matrix
+% Gamma=1i*(Sigma-ctranspose(Sigma));
+% Gamma_1=1i*(Sigma_1-ctranspose(Sigma_1));
+% Gamma_2=1i*(Sigma_2-ctranspose(Sigma_2));
+
+
+%% Using the mode space reduction
+% Sigma=zeros(nl_1+nl_2,nl_1+nl_2);
+% Sigma_1=zeros(nl_1+nl_2,nl_1+nl_2);
+% Sigma_2=zeros(nl_1+nl_2,nl_1+nl_2);
+% 
+% t0=hbar^2/2/me/dx^2;
+% 
+% for i=1:nl_1
+%     % wave-vector for lead #1
+%     ka_1=acos(+(1-(EE(i_E)-E_1(i))/2/t0));
+%     Sigma(i,i)=-t0*exp(1i*ka_1);
+%     Sigma_1(i,i)=-t0*exp(1i*ka_1);
+% end;
+% 
+% for i=1:nl_2
+%     % wave-vector for lead #1
+%     ka_2=acos(+(1-(EE(i_E)-E_2(i))/2/t0));
+%     Sigma(nl_1+i,nl_1+i)=-t0*exp(1i*ka_2);
+%     Sigma_2(nl_1+i,nl_1+i)=-t0*exp(1i*ka_2);
+% end;
+% 
+% % broadening matrix
+% Gamma=1i*(Sigma-ctranspose(Sigma));
+% Gamma_1=1i*(Sigma_1-ctranspose(Sigma_1));
+% Gamma_2=1i*(Sigma_2-ctranspose(Sigma_2));
